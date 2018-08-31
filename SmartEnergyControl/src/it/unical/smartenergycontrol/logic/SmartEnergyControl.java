@@ -1,7 +1,7 @@
-package it.unical.smartenergycontroll.logic;
+package it.unical.smartenergycontrol.logic;
 
-import it.unical.smartenergycontroll.gui.ApplicationFrame;
-import it.unical.smartenergycontroll.gui.myFrame;
+import it.unical.smartenergycontrol.gui.ApplicationFrame;
+import it.unical.smartenergycontrol.gui.myFrame;
 
 public class SmartEnergyControl {
 	public static void main(String[] args) {

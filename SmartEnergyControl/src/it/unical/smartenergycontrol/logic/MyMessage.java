@@ -1,4 +1,4 @@
-package it.unical.smartenergycontroll.logic;
+package it.unical.smartenergycontrol.logic;
 
 public class MyMessage extends net.tinyos.message.Message {
 	

@@ -1,10 +1,10 @@
-package it.unical.smartenergycontroll.logic;
+package it.unical.smartenergycontrol.logic;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import it.unical.smartenergycontroll.gui.myFrame;
+import it.unical.smartenergycontrol.gui.myFrame;
 
 public class Controller {
 	final static private int ROUND = 2;
@@ -52,10 +52,10 @@ public class Controller {
 			@Override
 			public void run() {
 
-				while (Programs.getInstance().SmartControll) {
+				while (Programs.getInstance().SmartControl) {
 
 					lock.lock();
-					// System.out.println(Programs.getInstance().SmartControll);
+					// System.out.println(Programs.getInstance().SmartControl);
 					try {
 
 						while (STC.getData() < userThreeshold && count != 0) {

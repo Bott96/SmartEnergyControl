@@ -1,4 +1,4 @@
-package it.unical.smartenergycontroll.gui;
+package it.unical.smartenergycontrol.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import it.unical.smartenergycontroll.logic.Controller;
+import it.unical.smartenergycontrol.logic.Controller;
 
 public class ApplicationFrame extends JFrame {
 
@@ -25,7 +25,7 @@ public class ApplicationFrame extends JFrame {
 	JPanel p;
 
 	public JLabel lblShowData;
-	JLabel lblSmartEnergyControll;
+	JLabel lblSmartEnergyControl;
 	JLabel lblThreeshold;
 	JLabel lblTimeToUp;
 
@@ -55,7 +55,7 @@ public class ApplicationFrame extends JFrame {
 		lblThreeshold.setBounds(320, 190, 250, 70);
 		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
-		this.setTitle("SmartEnergyControll");
+		this.setTitle("SmartEnergyControl");
 
 		this.setLocation(1200, 50);
 		this.setFocusable(true);
@@ -73,25 +73,25 @@ public class ApplicationFrame extends JFrame {
 		this.setContentPane(p);
 		p.setLayout(null);
 
-		/** LBL SMART ENERGY CONTROLL */
-		lblSmartEnergyControll = new JLabel("SMART ENERGY CONTROLL");
-		lblSmartEnergyControll.setBounds(80, 10, 800, 50);
-		lblSmartEnergyControll.setFont(
-				new Font(lblSmartEnergyControll.getFont().getName(), lblSmartEnergyControll.getFont().getStyle(), 30));
+		/** LBL SMART ENERGY CONTROL */
+		lblSmartEnergyControl = new JLabel("SMART ENERGY CONTROL");
+		lblSmartEnergyControl.setBounds(80, 10, 800, 50);
+		lblSmartEnergyControl.setFont(
+				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
 
 		/** LBL Program */
 		lblProgram = new JLabel("Program: ");
 		lblProgram.setBounds(80, 90, 800, 50);
 		lblProgram.setFont(
-				new Font(lblSmartEnergyControll.getFont().getName(), lblSmartEnergyControll.getFont().getStyle(), 30));
+				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
 
 		/** LBL Program */
 		lblActualProgram = new JLabel(" Off ");
 		lblActualProgram.setBounds(280, 90, 800, 50);
 		lblActualProgram.setFont(
-				new Font(lblSmartEnergyControll.getFont().getName(), lblSmartEnergyControll.getFont().getStyle(), 30));
+				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
 
-		/** LBL SMART ENERGY CONTROLL */
+		/** LBL SMART ENERGY CONTROL */
 		lblShowData = new JLabel("", SwingConstants.CENTER);
 		lblShowData.setBounds(50, 160, 500, 70);
 		lblShowData.setFont(new Font(lblShowData.getFont().getName(), lblShowData.getFont().getStyle(), 40));
@@ -141,7 +141,7 @@ public class ApplicationFrame extends JFrame {
 		plsONOFF.setBounds(50, 675, 500, 70);
 		plsONOFF.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
 
-		p.add(lblSmartEnergyControll);
+		p.add(lblSmartEnergyControl);
 		p.add(lblShowData);
 		p.add(plsAutomatic);
 		p.add(lblThreeshold);

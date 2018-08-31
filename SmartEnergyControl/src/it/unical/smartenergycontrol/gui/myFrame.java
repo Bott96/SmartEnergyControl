@@ -1,4 +1,4 @@
-package it.unical.smartenergycontroll.gui;
+package it.unical.smartenergycontrol.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
-import it.unical.smartenergycontroll.logic.Controller;
+import it.unical.smartenergycontrol.logic.Controller;
 
 public class myFrame extends JFrame {
 

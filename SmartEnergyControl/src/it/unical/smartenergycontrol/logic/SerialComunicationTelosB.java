@@ -1,9 +1,9 @@
-package it.unical.smartenergycontroll.logic;
+package it.unical.smartenergycontrol.logic;
 
 import java.io.IOException;
 
-import it.unical.smartenergycontroll.gui.ApplicationFrame;
-import it.unical.smartenergycontroll.gui.myFrame;
+import it.unical.smartenergycontrol.gui.ApplicationFrame;
+import it.unical.smartenergycontrol.gui.myFrame;
 import net.tinyos.message.Message;
 import net.tinyos.message.MessageListener;
 import net.tinyos.message.MoteIF;

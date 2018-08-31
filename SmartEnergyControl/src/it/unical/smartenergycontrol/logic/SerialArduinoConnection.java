@@ -1,4 +1,4 @@
-package it.unical.smartenergycontroll.logic;
+package it.unical.smartenergycontrol.logic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
-import it.unical.smartenergycontroll.gui.myFrame;
+import it.unical.smartenergycontrol.gui.myFrame;
 
 import java.util.Enumeration;
 

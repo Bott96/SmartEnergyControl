@@ -20,11 +20,11 @@ public class Programs {
 
 	}
 
-	public boolean isSmatControll() {
+	public boolean isSmartControl() {
 		return SmartControl && !(TimeControl || ManualControl);
 	}
 
-	public boolean isTimeControll() {
+	public boolean isTimeControl() {
 		return TimeControl && !(SmartControl || ManualControl);
 	}
 
@@ -43,11 +43,15 @@ public class Programs {
 			SmartControl = false;
 			TimeControl = true;
 			ManualControl = false;
-		} else {
+		} else if (P == 2) {
 
 			SmartControl = false;
 			TimeControl = false;
 			ManualControl = true;
+		} else {
+			SmartControl = false;
+			TimeControl = false;
+			ManualControl = false;
 		}
 
 	}

@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import it.unical.smartenergycontrol.logic.Controller;
+import it.unical.smartenergycontrol.logic.Programs;
 
 public class ApplicationFrame extends JFrame {
 
@@ -29,9 +32,10 @@ public class ApplicationFrame extends JFrame {
 	JLabel lblThreeshold;
 	JLabel lblTimeToUp;
 
-	public JLabel lblProgram;
+	JLabel lblProgram;
+	
 
-	JLabel lblActualProgram;
+	public JLabel lblActualProgram;
 
 	JTextArea txtThreeshoold;
 	JTextArea txtTime;
@@ -39,6 +43,7 @@ public class ApplicationFrame extends JFrame {
 	JButton plsAutomatic;
 	JButton plsTimer;
 	JButton plsONOFF;
+	JButton plsResetProgram;
 
 	public void setController(Controller c) {
 
@@ -125,21 +130,27 @@ public class ApplicationFrame extends JFrame {
 
 		/** lbl TIMETOUP */
 
-		lblTimeToUp = new JLabel("Threeshold");
+		lblTimeToUp = new JLabel("Time to up");
 		lblTimeToUp.setBounds(320, 450, 250, 70);
 		lblTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
 		/** txt SETTIME */
 
-		txtTime = new JTextArea("");
+		txtTime = new JTextArea("Ex: 16:50");
 		txtTime.setBounds(320, 510, 200, 40);
 		txtTime.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
 		/** PLS ON-OFF */
 
 		plsONOFF = new JButton("MANUAL ON");
-		plsONOFF.setBounds(50, 675, 500, 70);
+		plsONOFF.setBounds(50, 625, 500, 70);
 		plsONOFF.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
+
+		/** PLS ResetPrograms */
+
+		plsResetProgram = new JButton("No Programs");
+		plsResetProgram.setBounds(50, 725, 300, 50);
+		plsResetProgram.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 25));
 
 		p.add(lblSmartEnergyControl);
 		p.add(lblShowData);
@@ -152,6 +163,7 @@ public class ApplicationFrame extends JFrame {
 		p.add(plsONOFF);
 		p.add(lblProgram);
 		p.add(lblActualProgram);
+		p.add(plsResetProgram);
 
 		plsAutomatic.addActionListener(new ActionListener() {
 
@@ -166,13 +178,73 @@ public class ApplicationFrame extends JFrame {
 					return;
 				}
 
+				if (Programs.getInstance().isSmartControl()) {
+
+					Programs.getInstance().setPorgrams(5);
+					int threeshold = Integer.parseInt(txtThreeshoold.getText());
+					controller.smartOpenProgram(threeshold);
+
+				}
+
 				lblActualProgram.setText("SmartOpen");
 				int threeshold = Integer.parseInt(txtThreeshoold.getText());
-				System.out.println(threeshold+"   asdasdasdasdasd");
+				System.out.println(threeshold + "   asdasdasdasdasd");
 
-				
 				controller.smartOpenProgram(threeshold);
 
+			}
+		});
+
+		plsResetProgram.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Programs.getInstance().setPorgrams(7);
+				lblActualProgram.setText(" off ");
+				controller.dataARDUINOturnOff();
+				
+			}
+		});
+		
+		plsTimer.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+
+				if (txtTime.getText().equals("")) {
+					JOptionPane optionPane = new JOptionPane("You must insert Hours:Minutes", JOptionPane.WARNING_MESSAGE);
+					JDialog dialog = optionPane.createDialog("Warning!");
+					dialog.setAlwaysOnTop(true); // to show top of all other application
+					dialog.setVisible(true); // to visible the dialog
+					return;
+				}
+				Calendar c = Calendar.getInstance();
+				Date s = c.getTime();
+
+				System.out.println(s.getHours()+"----"+s.getMinutes());
+				
+				
+					Programs.getInstance().setPorgrams(5);
+					String time = txtTime.getText();
+					String[] partOf = time.split(":");
+					controller.timeControl(partOf);
+
+				
+				
+				
+				
+				
+				
+
+				//System.out.println(partOf[0]);
+				//System.out.println(partOf[1]);
+				
+				
+				
+				
+				
 			}
 		});
 

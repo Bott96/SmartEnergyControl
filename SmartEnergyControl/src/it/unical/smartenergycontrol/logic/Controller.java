@@ -1,5 +1,12 @@
 package it.unical.smartenergycontrol.logic;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +43,26 @@ public class Controller {
 
 	public void dataARDUINOturnOff() {
 		SAC.writeData(50);
+	}
+
+	public void timeControl(String[] hm) {
+
+		Programs.getInstance().setPorgrams(1);
+
+		Timer timer = new Timer();
+
+		System.out.println("AVVIO LO SCHEDULE");
+		try {
+			DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+			Date date = dateFormatter.parse(java.time.LocalDate.now() + " " + hm[0] + ":" + hm[1] + ":00");
+
+			timer.schedule(new MyTimeTask(this), date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public void smartOpenProgram(int userThreeshold) {
@@ -94,7 +121,7 @@ public class Controller {
 					lock.unlock();
 				}
 
-				frame.getApplicationFrame().lblProgram.setText(" Off ");
+				frame.getApplicationFrame().lblActualProgram.setText(" Off ");
 
 			}
 
@@ -102,4 +129,20 @@ public class Controller {
 
 	}
 
+}
+
+class MyTimeTask extends TimerTask {
+
+	Controller controller;
+
+	public MyTimeTask(Controller controller) {
+		this.controller = controller;
+	}
+
+	public void run() {
+
+		System.out.println("SCRIVO SU ARDUONì");
+		controller.dataARDUINOturnOn();
+
+	}
 }

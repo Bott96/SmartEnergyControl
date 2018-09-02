@@ -28,7 +28,7 @@ public class Programs {
 		return TimeControl && !(SmartControl || ManualControl);
 	}
 
-	public boolean isManualControll() {
+	public boolean isManualControl() {
 		return ManualControl && !(TimeControl || SmartControl);
 	}
 

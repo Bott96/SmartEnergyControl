@@ -21,6 +21,8 @@ public class Controller {
 	SerialComunicationTelosB STC;
 	public Lock lock = new ReentrantLock();
 	public Condition c = lock.newCondition();
+	public static boolean firstTime = true;
+	public static boolean isAccumulatorOpen = false;
 
 	public Controller(myFrame frame) {
 		this.frame = frame;
@@ -37,17 +39,66 @@ public class Controller {
 
 	}
 
-	public void dataARDUINOturnOn() {
+	public void dataARDUINOturnOnProgram0() {
 		SAC.writeData(49);
 	}
 
-	public void dataARDUINOturnOff() {
+	public void dataARDUINOturnOffProgram0() {
 		SAC.writeData(50);
 	}
 
-	public void timeControl(String[] hm) {
+	public void dataARDUINOturnOnProgram1() {
+		SAC.writeData(149);
+	}
 
+	public void dataARDUINOturnOffProgram1() {
+		SAC.writeData(150);
+	}
+
+	public void dataARDUINOturnOnProgram2() {
+		SAC.writeData(249);
+	}
+
+	public void dataARDUINOturnOffProgram2() {
+		SAC.writeData(250);
+	}
+
+	public void dataARDUINOReset() {
+		SAC.writeData(999);
+		firstTime = true;
+		frame.getApplicationFrame().plsONOFF.setText("Manual On");
+
+		dataARDUINOturnOffProgram0();
+		dataARDUINOturnOffProgram1();
+		dataARDUINOturnOffProgram2();
+		
+	}
+
+	public void manualControl() {
+
+		Programs.getInstance().setPorgrams(2);
+		SAC.writeData(2);
+
+		if (Programs.getInstance().isManualControl() && !firstTime) {
+			dataARDUINOturnOffProgram2();
+			firstTime = true;
+			isAccumulatorOpen = false;
+			frame.getApplicationFrame().plsONOFF.setText("Manual On");
+
+			Programs.getInstance().setPorgrams(7);
+		} else {
+			dataARDUINOturnOnProgram2();
+			isAccumulatorOpen = true;
+
+			frame.getApplicationFrame().plsONOFF.setText("Manual Off");
+			firstTime = false;
+		}
+	}
+
+	public void timeControl(String[] hmUP, String[] hmDOWN) {
+		firstTime = true;
 		Programs.getInstance().setPorgrams(1);
+		SAC.writeData(1);
 
 		Timer timer = new Timer();
 
@@ -55,9 +106,23 @@ public class Controller {
 		try {
 			DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-			Date date = dateFormatter.parse(java.time.LocalDate.now() + " " + hm[0] + ":" + hm[1] + ":00");
+			Date dateUp = dateFormatter.parse(java.time.LocalDate.now() + " " + hmUP[0] + ":" + hmUP[1] + ":00");
 
-			timer.schedule(new MyTimeTask(this), date);
+			Date dateDown = dateFormatter.parse(java.time.LocalDate.now() + " " + hmDOWN[0] + ":" + hmDOWN[1] + ":00");
+			
+			dataARDUINOturnOffProgram1();
+			frame.getApplicationFrame().plsONOFF.setText("Manual On");
+
+			timer.schedule(new MyTimeTaskUP(this), dateUp);
+			isAccumulatorOpen = true;
+
+			firstTime = false;
+			timer.schedule(new MyTimeTaskDOWN(this), dateDown);
+
+			//frame.getApplicationFrame().plsONOFF.setText("Manual On");
+			isAccumulatorOpen = false;
+			firstTime = true;
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,6 +131,8 @@ public class Controller {
 	}
 
 	public void smartOpenProgram(int userThreeshold) {
+		firstTime = true;
+		SAC.writeData(3);
 
 		Programs.getInstance().setPorgrams(0);
 
@@ -93,18 +160,26 @@ public class Controller {
 						}
 
 						if (STC.getData() > userThreeshold && count > 0 && !justOpen) {
-							SAC.writeData(49);
+							dataARDUINOturnOnProgram0();
 							System.out.println("SCRIVO SU ARDUINO");
 							justOpen = true;
 							oldMisure = STC.getData();
+							frame.getApplicationFrame().plsONOFF.setText("Manual Off");
+							firstTime = false;
+							isAccumulatorOpen = true;
+
 						}
 
 						if (count == 0) {
-							SAC.writeData(50);
+							dataARDUINOturnOffProgram0();
 							System.out.println("SCRIVO SU ARDUINO");
 							justClosed = true;
 							justOpen = false;
 							count = ROUND;
+							frame.getApplicationFrame().plsONOFF.setText("Manual On");
+							firstTime = true;
+							isAccumulatorOpen = false;
+
 						}
 						while ((STC.getData() > oldMisure + 50 || STC.getData() < oldMisure - 50)
 								&& STC.getData() < userThreeshold) { // se è true
@@ -121,7 +196,6 @@ public class Controller {
 					lock.unlock();
 				}
 
-				frame.getApplicationFrame().lblActualProgram.setText(" Off ");
 
 			}
 
@@ -131,18 +205,39 @@ public class Controller {
 
 }
 
-class MyTimeTask extends TimerTask {
+class MyTimeTaskUP extends TimerTask {
 
 	Controller controller;
 
-	public MyTimeTask(Controller controller) {
+	public MyTimeTaskUP(Controller controller) {
 		this.controller = controller;
 	}
 
 	public void run() {
 
 		System.out.println("SCRIVO SU ARDUONì");
-		controller.dataARDUINOturnOn();
+		controller.dataARDUINOturnOnProgram1();
+		controller.frame.getApplicationFrame().plsONOFF.setText("Manual Off");
+		controller.firstTime = false;
+
+	}
+
+}
+
+class MyTimeTaskDOWN extends TimerTask {
+
+	Controller controller;
+
+	public MyTimeTaskDOWN(Controller controller) {
+		this.controller = controller;
+	}
+
+	public void run() {
+
+		System.out.println("SCRIVO SU ARDUONì");
+		controller.dataARDUINOturnOffProgram1();
+		controller.frame.getApplicationFrame().plsONOFF.setText("Manual On");
+		controller.firstTime = true;
 
 	}
 }

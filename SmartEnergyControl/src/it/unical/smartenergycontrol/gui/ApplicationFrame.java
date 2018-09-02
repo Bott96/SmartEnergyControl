@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -31,18 +33,19 @@ public class ApplicationFrame extends JFrame {
 	JLabel lblSmartEnergyControl;
 	JLabel lblThreeshold;
 	JLabel lblTimeToUp;
+	JLabel lblTimeToDown;
 
 	JLabel lblProgram;
-	
 
 	public JLabel lblActualProgram;
 
 	JTextArea txtThreeshoold;
-	JTextArea txtTime;
+	JTextArea txtTimeToUp;
+	JTextArea txtTimeToDown;
 
 	JButton plsAutomatic;
 	JButton plsTimer;
-	JButton plsONOFF;
+	public JButton plsONOFF;
 	JButton plsResetProgram;
 
 	public void setController(Controller c) {
@@ -54,8 +57,10 @@ public class ApplicationFrame extends JFrame {
 	public ApplicationFrame() {
 		super();
 
-		p = new JPanel();/** lbl threshuld */
-
+		p = new JPanel();
+		this.setContentPane(p);
+		p.setLayout(null);
+		
 		lblThreeshold = new JLabel("Threeshold");
 		lblThreeshold.setBounds(320, 190, 250, 70);
 		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
@@ -64,19 +69,17 @@ public class ApplicationFrame extends JFrame {
 
 		this.setLocation(1200, 50);
 		this.setFocusable(true);
+		this.setSize(600, 800);
 
 		Toolkit TK = Toolkit.getDefaultToolkit();
 
 		Dimension d = TK.getScreenSize();
-		this.setSize(600, 800);
 
 		Color c = new Color(10, 100, 100);
 
-		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.setLocation(1200, 50);
-		this.setContentPane(p);
-		p.setLayout(null);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 
 		/** LBL SMART ENERGY CONTROL */
 		lblSmartEnergyControl = new JLabel("SMART ENERGY CONTROL");
@@ -91,7 +94,7 @@ public class ApplicationFrame extends JFrame {
 				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
 
 		/** LBL Program */
-		lblActualProgram = new JLabel(" Off ");
+		lblActualProgram = new JLabel("No Program");
 		lblActualProgram.setBounds(280, 90, 800, 50);
 		lblActualProgram.setFont(
 				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
@@ -118,37 +121,49 @@ public class ApplicationFrame extends JFrame {
 
 		/** txt threshuld */
 
-		txtThreeshoold = new JTextArea("");
+		txtThreeshoold = new JTextArea();
 		txtThreeshoold.setBounds(320, 310, 200, 40);
 		txtThreeshoold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
 		/** PLS TIME */
 
 		plsTimer = new JButton("Set time");
-		plsTimer.setBounds(50, 475, 250, 70);
+		plsTimer.setBounds(50, 475, 190, 70);
 		plsTimer.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
 
 		/** lbl TIMETOUP */
 
-		lblTimeToUp = new JLabel("Time to up");
-		lblTimeToUp.setBounds(320, 450, 250, 70);
+		lblTimeToUp = new JLabel("Time on");
+		lblTimeToUp.setBounds(260, 450, 190, 70);
 		lblTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
 		/** txt SETTIME */
 
-		txtTime = new JTextArea("Ex: 16:50");
-		txtTime.setBounds(320, 510, 200, 40);
-		txtTime.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		txtTimeToUp = new JTextArea();
+		txtTimeToUp.setBounds(260, 510, 140, 40);
+		txtTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+
+		/** lbl TIMETODOWN */
+
+		lblTimeToDown = new JLabel("Time off");
+		lblTimeToDown.setBounds(420, 450, 250, 70);
+		lblTimeToDown.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+
+		/** txt SETTIMETODOWN */
+
+		txtTimeToDown = new JTextArea();
+		txtTimeToDown.setBounds(420, 510, 140, 40);
+		txtTimeToDown.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
 		/** PLS ON-OFF */
 
-		plsONOFF = new JButton("MANUAL ON");
+		plsONOFF = new JButton("Manual On");
 		plsONOFF.setBounds(50, 625, 500, 70);
 		plsONOFF.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
 
 		/** PLS ResetPrograms */
 
-		plsResetProgram = new JButton("No Programs");
+		plsResetProgram = new JButton("Reset");
 		plsResetProgram.setBounds(50, 725, 300, 50);
 		plsResetProgram.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 25));
 
@@ -158,12 +173,14 @@ public class ApplicationFrame extends JFrame {
 		p.add(lblThreeshold);
 		p.add(txtThreeshoold);
 		p.add(plsTimer);
-		p.add(txtTime);
+		p.add(txtTimeToUp);
 		p.add(lblTimeToUp);
 		p.add(plsONOFF);
 		p.add(lblProgram);
 		p.add(lblActualProgram);
 		p.add(plsResetProgram);
+		p.add(txtTimeToDown);
+		p.add(lblTimeToDown);
 
 		plsAutomatic.addActionListener(new ActionListener() {
 
@@ -201,52 +218,129 @@ public class ApplicationFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				Programs.getInstance().setPorgrams(7);
-				lblActualProgram.setText(" off ");
-				controller.dataARDUINOturnOff();
-				
+				lblActualProgram.setText("No Program");
+				controller.dataARDUINOReset();
+
 			}
 		});
 		
+
+		
+
 		plsTimer.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
+				lblActualProgram.setText("Timer");
 
-				if (txtTime.getText().equals("")) {
-					JOptionPane optionPane = new JOptionPane("You must insert Hours:Minutes", JOptionPane.WARNING_MESSAGE);
+				String timeup = txtTimeToUp.getText();
+				timeup.trim();
+				String[] partOfUp = timeup.trim().split(":");
+
+				String timedown = txtTimeToDown.getText();
+				timedown.trim();
+				String[] partOfUDown = timedown.trim().split(":");
+
+				if ((timeup.equals("") || timedown.equals(""))) {
+					JOptionPane optionPane = new JOptionPane("1  You must insert Hours:Minutes to time on and time off",
+							JOptionPane.WARNING_MESSAGE);
 					JDialog dialog = optionPane.createDialog("Warning!");
 					dialog.setAlwaysOnTop(true); // to show top of all other application
 					dialog.setVisible(true); // to visible the dialog
 					return;
 				}
-				Calendar c = Calendar.getInstance();
-				Date s = c.getTime();
 
-				System.out.println(s.getHours()+"----"+s.getMinutes());
-				
-				
-					Programs.getInstance().setPorgrams(5);
-					String time = txtTime.getText();
-					String[] partOf = time.split(":");
-					controller.timeControl(partOf);
+				if ((timeup.trim().matches("\\d\\d:\\d\\d") && timedown.trim().matches("\\d\\d:\\d\\d"))) {
 
-				
-				
-				
-				
-				
-				
+					System.out.println("Rispetta");
+					Calendar c = Calendar.getInstance();
+					Date s = c.getTime();
 
-				//System.out.println(partOf[0]);
-				//System.out.println(partOf[1]);
-				
-				
-				
-				
-				
+					System.out.println(s.getHours() + "----" + s.getMinutes());
+
+					if ((Integer.parseInt(partOfUp[0]) >= 1 && Integer.parseInt(partOfUp[0]) <= 23)
+							&& (Integer.parseInt(partOfUDown[0]) >= 1 && Integer.parseInt(partOfUDown[0]) <= 23)) {
+
+						if ((Integer.parseInt(partOfUp[1]) >= 0 && Integer.parseInt(partOfUp[1]) <= 59)
+								&& (Integer.parseInt(partOfUDown[1]) >= 0 && Integer.parseInt(partOfUDown[1]) <= 59)) {
+
+							if (Integer.parseInt(partOfUp[0]) > Integer.parseInt(partOfUDown[0])) {
+
+								JOptionPane optionPane = new JOptionPane(" Hours down, must be higher than hours up",
+										JOptionPane.WARNING_MESSAGE);
+								JDialog dialog = optionPane.createDialog("Warning!");
+								dialog.setAlwaysOnTop(true); // to show top of all other application
+								dialog.setVisible(true); // to visible the dialog
+								return;
+							}
+
+							if (Integer.parseInt(partOfUp[0]) == Integer.parseInt(partOfUDown[0])) {
+
+								if (Integer.parseInt(partOfUp[1]) > Integer.parseInt(partOfUDown[1])) {
+
+									JOptionPane optionPane = new JOptionPane(
+											" minutes down, must be higher than minute up if hours is equals",
+											JOptionPane.WARNING_MESSAGE);
+									JDialog dialog = optionPane.createDialog("Warning!");
+									dialog.setAlwaysOnTop(true); // to show top of all other application
+									dialog.setVisible(true); // to visible the dialog
+									return;
+
+								}
+							}
+							System.out.println("TUTTO OK.");
+
+							Programs.getInstance().setPorgrams(5);
+							controller.timeControl(partOfUp, partOfUDown);
+
+						} else {
+							JOptionPane optionPane = new JOptionPane("You must insert Hours:Minutes, conrrectly",
+									JOptionPane.WARNING_MESSAGE);
+							JDialog dialog = optionPane.createDialog("Warning!");
+							dialog.setAlwaysOnTop(true); // to show top of all other application
+							dialog.setVisible(true); // to visible the dialog
+							return;
+						}
+
+					} else {
+						JOptionPane optionPane = new JOptionPane("You must insert Hours:Minutes, conrrectly",
+								JOptionPane.WARNING_MESSAGE);
+						JDialog dialog = optionPane.createDialog("Warning!");
+						dialog.setAlwaysOnTop(true); // to show top of all other application
+						dialog.setVisible(true); // to visible the dialog
+						return;
+					}
+
+				} else {
+					JOptionPane optionPane = new JOptionPane("2 You must insert Hours:Minutes to time on and time off",
+							JOptionPane.WARNING_MESSAGE);
+					JDialog dialog = optionPane.createDialog("Warning!");
+					dialog.setAlwaysOnTop(true); // to show top of all other application
+					dialog.setVisible(true); // to visible the dialog
+					return;
+				}
+
 			}
 		});
+
+		txtTimeToUp.setToolTipText("Example: 16:52");
+		txtTimeToDown.setToolTipText("Example: 17:53");
+
+		plsONOFF.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+
+				lblActualProgram.setText("Manual");
+				
+				controller.manualControl();
+
+			}
+		});
+
+
 
 	}
 

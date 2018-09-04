@@ -44,11 +44,12 @@ public class SerialComunicationTelosB implements MessageListener {
 			c = 0;
 			data = sum / i;
 			appFrame.lblShowData.setText(data + "");
+			frame.getApplicationFrame().getMoreThanOneFrame().lblShowData.setText(data + "");
 			sum = 0;
-			frame.getController().lock.lock();
-			frame.getController().c.signalAll();
+			Config.controller.lock.lock();
+			Config.controller.c.signalAll();
 
-			frame.getController().lock.unlock();
+			Config.controller.lock.unlock();
 
 		}
 		System.out.println(

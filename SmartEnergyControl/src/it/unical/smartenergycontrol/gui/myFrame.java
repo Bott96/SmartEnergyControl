@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.text.JTextComponent;
 
+import it.unical.smartenergycontrol.logic.Config;
 import it.unical.smartenergycontrol.logic.Controller;
 
 public class myFrame extends JFrame {
@@ -25,7 +26,7 @@ public class myFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 2889065122470823581L;
 
-	Controller controller;
+	// Controller controller;
 
 	JPanel P;
 	JButton plsTelosConnect, plsArduinoConnect, plsStartApplication;
@@ -42,10 +43,15 @@ public class myFrame extends JFrame {
 
 	boolean ArduinoComunicationSetted = false, telosbComunicationSetted = false;
 
-	public myFrame(ApplicationFrame a) {
+	public myFrame() {
 		super();
-		applicationFrame = a;
-		applicationFrame.setController(controller);
+		// applicationFrame = a;
+
+		Config.controller = new Controller(this);
+
+		applicationFrame = new ApplicationFrame();
+
+		// applicationFrame.setController(controller);
 
 		// setLayout(manager);
 		setResizable(false);
@@ -165,7 +171,7 @@ public class myFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				String connectionPort = txtserialPortArduino.getText();
-				controller.startArduinoConnection(connectionPort);
+				Config.controller.startArduinoConnection(connectionPort);
 				ArduinoComunicationSetted = true;
 
 			}
@@ -177,7 +183,7 @@ public class myFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				String connectionPort = txtserialPortTelosb.getText();
-				controller.startTelosbConnection(connectionPort);
+				Config.controller.startTelosbConnection(connectionPort);
 				telosbComunicationSetted = true;
 
 			}
@@ -187,6 +193,8 @@ public class myFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				applicationFrame.setVisible(false);
 
 				if (!ArduinoComunicationSetted && !telosbComunicationSetted) {
 					JOptionPane optionPane = new JOptionPane(
@@ -215,15 +223,8 @@ public class myFrame extends JFrame {
 		P.add(lblArduinoResponce);
 		P.add(lblTelosbResponce);
 
-		controller = new Controller(this);
-		applicationFrame.setController(controller);
-		
 	}
-	
-	public Controller getController() {
-		return controller;
-	}
-	
+
 	public ApplicationFrame getApplicationFrame() {
 		return applicationFrame;
 	}

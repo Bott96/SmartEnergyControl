@@ -3,7 +3,7 @@ package it.unical.smartenergycontrol.logic;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,11 +22,12 @@ public class Controller {
 	public Lock lock = new ReentrantLock();
 	public Condition c = lock.newCondition();
 	public static boolean firstTime = true;
+	public static boolean justUpdate = false;
 	public static boolean isAccumulatorOpen = false;
+	public ManageDevices managerDevice = new ManageDevices();
 
 	public Controller(myFrame frame) {
 		this.frame = frame;
-
 	}
 
 	public void startTelosbConnection(String connectionPort) {
@@ -71,7 +72,7 @@ public class Controller {
 		dataARDUINOturnOffProgram0();
 		dataARDUINOturnOffProgram1();
 		dataARDUINOturnOffProgram2();
-		
+
 	}
 
 	public void manualControl() {
@@ -109,7 +110,7 @@ public class Controller {
 			Date dateUp = dateFormatter.parse(java.time.LocalDate.now() + " " + hmUP[0] + ":" + hmUP[1] + ":00");
 
 			Date dateDown = dateFormatter.parse(java.time.LocalDate.now() + " " + hmDOWN[0] + ":" + hmDOWN[1] + ":00");
-			
+
 			dataARDUINOturnOffProgram1();
 			frame.getApplicationFrame().plsONOFF.setText("Manual On");
 
@@ -119,7 +120,7 @@ public class Controller {
 			firstTime = false;
 			timer.schedule(new MyTimeTaskDOWN(this), dateDown);
 
-			//frame.getApplicationFrame().plsONOFF.setText("Manual On");
+			// frame.getApplicationFrame().plsONOFF.setText("Manual On");
 			isAccumulatorOpen = false;
 			firstTime = true;
 
@@ -196,10 +197,57 @@ public class Controller {
 					lock.unlock();
 				}
 
-
 			}
 
 		}.start();
+
+	}
+
+
+
+	public void moreThanOneOpen(int Program) {
+
+		if (Program == 1) { // economics
+
+			new Thread() {
+
+				boolean justOpen = false;
+				int oldMisure = 0;
+				int count = ROUND;
+
+				@Override
+				public void run() {
+
+					while (Programs.getInstance().MoreThanOne && Program == 1) {
+						
+						lock.lock();
+						
+						while ((STC.getData() > oldMisure + 50 || STC.getData() < oldMisure - 50) && justUpdate) { // se è true
+
+							System.out.println("Maggiore  o minore old miuser");
+							try {
+								c.await();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+						ArrayList<Integer> devToOpen= managerDevice.deviceICanOpenEc(STC.getData());
+						//DICI AD ARDUINO QUALI APRIRE
+						System.out.println(devToOpen);
+						justUpdate = true;
+						
+						
+						lock.unlock();
+						
+					}
+
+				}
+
+			}.start();
+
+		}
 
 	}
 

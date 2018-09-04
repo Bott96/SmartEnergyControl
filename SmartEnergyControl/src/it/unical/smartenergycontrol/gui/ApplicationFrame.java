@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -20,12 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import it.unical.smartenergycontrol.logic.Config;
 import it.unical.smartenergycontrol.logic.Controller;
 import it.unical.smartenergycontrol.logic.Programs;
 
 public class ApplicationFrame extends JFrame {
 
-	Controller controller;
+
+	MoreThanOneFrame moreThanOneFrame;
 
 	JPanel p;
 
@@ -46,30 +46,29 @@ public class ApplicationFrame extends JFrame {
 	JButton plsAutomatic;
 	JButton plsTimer;
 	public JButton plsONOFF;
+	public JButton plsMoreThanOne;
 	JButton plsResetProgram;
 
-	public void setController(Controller c) {
-
-		this.controller = c;
-
-	}
 
 	public ApplicationFrame() {
 		super();
 
+		moreThanOneFrame = new MoreThanOneFrame(this);
+		moreThanOneFrame.setVisible(false);
+
 		p = new JPanel();
 		this.setContentPane(p);
 		p.setLayout(null);
-		
-		lblThreeshold = new JLabel("Threeshold");
-		lblThreeshold.setBounds(320, 190, 250, 70);
-		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
 
 		this.setTitle("SmartEnergyControl");
 
 		this.setLocation(1200, 50);
 		this.setFocusable(true);
 		this.setSize(600, 800);
+
+		lblThreeshold = new JLabel("Threeshold");
+		lblThreeshold.setBounds(320, 190, 250, 70);
+		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		Toolkit TK = Toolkit.getDefaultToolkit();
 
@@ -79,7 +78,6 @@ public class ApplicationFrame extends JFrame {
 
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 
 		/** LBL SMART ENERGY CONTROL */
 		lblSmartEnergyControl = new JLabel("SMART ENERGY CONTROL");
@@ -91,75 +89,82 @@ public class ApplicationFrame extends JFrame {
 		lblProgram = new JLabel("Program: ");
 		lblProgram.setBounds(80, 90, 800, 50);
 		lblProgram.setFont(
-				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
+				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 25));
 
 		/** LBL Program */
 		lblActualProgram = new JLabel("No Program");
 		lblActualProgram.setBounds(280, 90, 800, 50);
 		lblActualProgram.setFont(
-				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 30));
+				new Font(lblSmartEnergyControl.getFont().getName(), lblSmartEnergyControl.getFont().getStyle(), 25));
 
 		/** LBL SMART ENERGY CONTROL */
 		lblShowData = new JLabel("", SwingConstants.CENTER);
 		lblShowData.setBounds(50, 160, 500, 70);
-		lblShowData.setFont(new Font(lblShowData.getFont().getName(), lblShowData.getFont().getStyle(), 40));
+		lblShowData.setFont(new Font(lblShowData.getFont().getName(), lblShowData.getFont().getStyle(), 30));
 		lblShowData.setBackground(Color.orange);
+
 		lblShowData.setForeground(new Color(100, 100, 100));
 		lblShowData.setOpaque(true);
 
 		/** PLS AUTOMATIC */
 
-		plsAutomatic = new JButton("Automatic");
-		plsAutomatic.setBounds(50, 275, 250, 70);
-		plsAutomatic.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
+		plsAutomatic = new JButton("Smart Control");
+		plsAutomatic.setBounds(50, 275, 250, 50);
+		plsAutomatic.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 25));
+
+		/** PLS More THAN ONE */
+
+		plsMoreThanOne = new JButton("More Smart Control");
+		plsMoreThanOne.setBounds(100, 345, 400, 50);
+		plsMoreThanOne.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 25));
 
 		/** lbl threshuld */
 
 		lblThreeshold = new JLabel("Threeshold");
-		lblThreeshold.setBounds(320, 250, 250, 70);
-		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		lblThreeshold.setBounds(320, 230, 250, 70);
+		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		/** txt threshuld */
 
 		txtThreeshoold = new JTextArea();
-		txtThreeshoold.setBounds(320, 310, 200, 40);
-		txtThreeshoold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		txtThreeshoold.setBounds(320, 290, 200, 40);
+		txtThreeshoold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		/** PLS TIME */
 
 		plsTimer = new JButton("Set time");
 		plsTimer.setBounds(50, 475, 190, 70);
-		plsTimer.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
+		plsTimer.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 25));
 
 		/** lbl TIMETOUP */
 
 		lblTimeToUp = new JLabel("Time on");
 		lblTimeToUp.setBounds(260, 450, 190, 70);
-		lblTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		lblTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		/** txt SETTIME */
 
 		txtTimeToUp = new JTextArea();
 		txtTimeToUp.setBounds(260, 510, 140, 40);
-		txtTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		txtTimeToUp.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		/** lbl TIMETODOWN */
 
 		lblTimeToDown = new JLabel("Time off");
 		lblTimeToDown.setBounds(420, 450, 250, 70);
-		lblTimeToDown.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		lblTimeToDown.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		/** txt SETTIMETODOWN */
 
 		txtTimeToDown = new JTextArea();
 		txtTimeToDown.setBounds(420, 510, 140, 40);
-		txtTimeToDown.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 30));
+		txtTimeToDown.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
 
 		/** PLS ON-OFF */
 
 		plsONOFF = new JButton("Manual On");
 		plsONOFF.setBounds(50, 625, 500, 70);
-		plsONOFF.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 30));
+		plsONOFF.setFont(new Font(plsAutomatic.getFont().getName(), plsAutomatic.getFont().getStyle(), 25));
 
 		/** PLS ResetPrograms */
 
@@ -181,6 +186,7 @@ public class ApplicationFrame extends JFrame {
 		p.add(plsResetProgram);
 		p.add(txtTimeToDown);
 		p.add(lblTimeToDown);
+		p.add(plsMoreThanOne);
 
 		plsAutomatic.addActionListener(new ActionListener() {
 
@@ -199,7 +205,7 @@ public class ApplicationFrame extends JFrame {
 
 					Programs.getInstance().setPorgrams(5);
 					int threeshold = Integer.parseInt(txtThreeshoold.getText());
-					controller.smartOpenProgram(threeshold);
+					Config.controller.smartOpenProgram(threeshold);
 
 				}
 
@@ -207,7 +213,18 @@ public class ApplicationFrame extends JFrame {
 				int threeshold = Integer.parseInt(txtThreeshoold.getText());
 				System.out.println(threeshold + "   asdasdasdasdasd");
 
-				controller.smartOpenProgram(threeshold);
+				Config.controller.smartOpenProgram(threeshold);
+
+			}
+		});
+
+		plsMoreThanOne.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				setVisible(false);
+				moreThanOneFrame.setVisible(true);
 
 			}
 		});
@@ -219,19 +236,16 @@ public class ApplicationFrame extends JFrame {
 
 				Programs.getInstance().setPorgrams(7);
 				lblActualProgram.setText("No Program");
-				controller.dataARDUINOReset();
+				Config.controller.dataARDUINOReset();
 
 			}
 		});
-		
-
-		
 
 		plsTimer.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				lblActualProgram.setText("Timer");
 
 				String timeup = txtTimeToUp.getText();
@@ -292,7 +306,7 @@ public class ApplicationFrame extends JFrame {
 							System.out.println("TUTTO OK.");
 
 							Programs.getInstance().setPorgrams(5);
-							controller.timeControl(partOfUp, partOfUDown);
+							Config.controller.timeControl(partOfUp, partOfUDown);
 
 						} else {
 							JOptionPane optionPane = new JOptionPane("You must insert Hours:Minutes, conrrectly",
@@ -332,16 +346,17 @@ public class ApplicationFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-
 				lblActualProgram.setText("Manual");
-				
-				controller.manualControl();
+
+				Config.controller.manualControl();
 
 			}
 		});
 
-
-
+	}
+	
+	public MoreThanOneFrame getMoreThanOneFrame() {
+		return moreThanOneFrame;
 	}
 
 	public static void main(String[] args) {

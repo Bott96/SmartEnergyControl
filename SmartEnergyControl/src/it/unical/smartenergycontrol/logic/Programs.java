@@ -5,6 +5,7 @@ public class Programs {
 	boolean SmartControl = false; // 0
 	boolean TimeControl = false; // 1
 	boolean ManualControl = false; // 2
+	boolean MoreThanOne = false; // 3
 
 	private static Programs programs = null;
 
@@ -38,20 +39,30 @@ public class Programs {
 			SmartControl = true;
 			TimeControl = false;
 			ManualControl = false;
+			MoreThanOne = false;
 		} else if (P == 1) {
 
 			SmartControl = false;
 			TimeControl = true;
 			ManualControl = false;
+			MoreThanOne = false;
 		} else if (P == 2) {
 
 			SmartControl = false;
 			TimeControl = false;
 			ManualControl = true;
+			MoreThanOne = false;
+		}else if (P == 3) {
+
+			SmartControl = false;
+			TimeControl = false;
+			ManualControl = true;
+			MoreThanOne = true;
 		} else {
 			SmartControl = false;
 			TimeControl = false;
 			ManualControl = false;
+			MoreThanOne = false;
 		}
 
 	}

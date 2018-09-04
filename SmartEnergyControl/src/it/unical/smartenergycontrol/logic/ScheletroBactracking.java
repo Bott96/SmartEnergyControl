@@ -9,13 +9,13 @@ public class ScheletroBactracking {
 	int SommaAttuale = 0;
 
 	int SommaMax = 0;
-	ArrayList<Integer> BestSol = new ArrayList<>();
+	ArrayList<Device> BestSol = new ArrayList<>();
 
 	int KWPRODOTTIATTUALI = 0;
 	ArrayList<Device> device = new ArrayList<>();
-	ArrayList<Integer> sol;
+	ArrayList<Device> sol;
 
-	public ScheletroBactracking(ArrayList<Device> dev, int kwpro, ArrayList<Integer> sol) {
+	public ScheletroBactracking(ArrayList<Device> dev, int kwpro, ArrayList<Device> sol) {
 		MIN = 0;
 		device = dev;
 		MAX = device.size();
@@ -29,7 +29,7 @@ public class ScheletroBactracking {
 		//while (x < MAX) {
 		if(x<MAX) {
 			if (canAdd(device.get(x).getMaxKW())) {
-				addSolution(device.get(x).getMaxKW());
+				addSolution(device.get(x));
 				isComplete(x);
 				
 					x++;
@@ -76,7 +76,7 @@ public class ScheletroBactracking {
 	}
 	
 	boolean canAdd(int kw) {
-		System.out.println("can add-----  "+(SommaAttuale +"  "+ kw) );
+		//System.out.println("can add-----  "+(SommaAttuale +"  "+ kw) );
 		if ((SommaAttuale + kw) <= KWPRODOTTIATTUALI) {
 			
 			return true;
@@ -84,15 +84,15 @@ public class ScheletroBactracking {
 		return false;
 	}
 
-	void addSolution(int kw) {
-		sol.add(kw);
-		SommaAttuale += kw;
-		System.out.println("Somma Attuale "+ SommaAttuale);
+	void addSolution(Device dv) {
+		sol.add(dv);
+		SommaAttuale += dv.getMaxKW();
+		//System.out.println("Somma Attuale "+ SommaAttuale);
 
 	}
 
 	void removeSolution(int x) {
-		SommaAttuale -= sol.get(sol.size()-1);
+		SommaAttuale -= sol.get(sol.size()-1).getMaxKW();
 		sol.remove(sol.size()-1);
 	}
 }

@@ -15,6 +15,7 @@ import it.unical.smartenergycontrol.gui.myFrame;
 
 public class Controller {
 	final static private int ROUND = 2;
+	final static private int ROUNDTOOPEN = 2;
 
 	myFrame frame;
 	SerialArduinoConnection SAC;
@@ -197,13 +198,12 @@ public class Controller {
 					lock.unlock();
 				}
 
+			
 			}
 
 		}.start();
 
 	}
-
-
 
 	public void moreThanOneOpen(int Program) {
 
@@ -213,18 +213,34 @@ public class Controller {
 
 				boolean justOpen = false;
 				int oldMisure = 0;
-				int count = ROUND;
+				int count = ROUNDTOOPEN;
 
 				@Override
 				public void run() {
 
 					while (Programs.getInstance().MoreThanOne && Program == 1) {
-						
-						lock.lock();
-						
-						while ((STC.getData() > oldMisure + 50 || STC.getData() < oldMisure - 50) && justUpdate) { // se è true
 
-							System.out.println("Maggiore  o minore old miuser");
+						lock.lock();
+
+						if (justUpdate == false) {
+							justUpdate = true;
+							oldMisure = STC.getData();
+							ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
+							System.out.println("VALORE SU CUI OPERAREEE  " + devToOpen);
+
+						}
+						System.out.println("VALORI PER CUI ESCO  ");
+						System.out.println("OLD MISURE PIU " + (oldMisure+61));
+						System.out.println("OLD MISURE MENO " + (oldMisure-61));
+						System.out.println("GET DATA " + STC.getData());
+
+						while (!(STC.getData() >= oldMisure + 100 || STC.getData() <= oldMisure - 100)) { // se è true
+
+							System.out.println("Maggiore  o minore more tha one open");
+							//System.out.println("PERCHE NON ESCO DAL QHILE?");
+
+							//System.out.println("OLD MISURE " + oldMisure);
+						//	System.out.println("GET DATA " + STC.getData());
 							try {
 								c.await();
 							} catch (InterruptedException e) {
@@ -232,15 +248,32 @@ public class Controller {
 								e.printStackTrace();
 							}
 						}
+
 						
-						ArrayList<Integer> devToOpen= managerDevice.deviceICanOpenEc(STC.getData());
-						//DICI AD ARDUINO QUALI APRIRE
-						System.out.println(devToOpen);
-						justUpdate = true;
+						while(count !=0){
+							
+							count --;
+							try {
+								c.await();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						
+							
 						
+						}
+						
+						ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
+						// DICI AD ARDUINO QUALI APRIRE
+						System.out.println("VALORE SU CUI OPERAREEE  " + devToOpen);
+						// oldMisure = STC.getData();
+						// justUpdate = false;
+						count = ROUNDTOOPEN;
+						
+						oldMisure = STC.getData();
 						lock.unlock();
-						
+
 					}
 
 				}

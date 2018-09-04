@@ -114,17 +114,17 @@ public class ManageDevices {
 	public static void main(String[] args) {
 
 		ManageDevices md = new ManageDevices();
-		md.AddDevice(11, "asd", 300, 3);
-		md.AddDevice(12, "asd", 800, 1);
-		md.AddDevice(13, "asd", 2200, 2);
+		md.AddDevice(11, "asd", 500, 3);
+		md.AddDevice(12, "asd", 500, 1);
+		md.AddDevice(13, "asd", 500, 2);
 
-		System.out.println(md.deviceICanOpenEc(1200));
+		System.out.println(md.deviceICanOpenEc(2500));
 
 	}
 
-	public ArrayList<Integer> deviceICanOpenEc(int maxKw) {
+	public ArrayList<Device> deviceICanOpenEc(int maxKw) {
 
-		ArrayList<Integer> sol = new ArrayList<>();
+		ArrayList<Device> sol = new ArrayList<>();
 		decision = new ScheletroBactracking(devices, maxKw, sol);
 
 		decision.TemplateMethod_Solve(0);

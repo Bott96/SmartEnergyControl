@@ -40,7 +40,7 @@ public class SerialComunicationTelosB implements MessageListener {
 		c++;
 
 		if (c == i) {
-			System.out.println("Aggiorno");
+			System.out.println("Aggiorno /sveglio");
 			c = 0;
 			data = sum / i;
 			appFrame.lblShowData.setText(data + "");

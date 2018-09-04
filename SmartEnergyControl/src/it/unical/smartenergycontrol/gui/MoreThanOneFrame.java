@@ -120,7 +120,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblName1.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtName1 = new JTextArea();
+		txtName1 = new JTextArea("Condizionatore");
 		txtName1.setBounds(20, 140 + h, 150, 30);
 		txtName1.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -130,7 +130,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblMaxKw1.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtMaxKw1 = new JTextArea();
+		txtMaxKw1 = new JTextArea("250");
 		txtMaxKw1.setBounds(200, 140 + h, 150, 30);
 		txtMaxKw1.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -165,7 +165,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblName2.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtName2 = new JTextArea();
+		txtName2 = new JTextArea("STUFA");
 		txtName2.setBounds(20, 140 + h1, 150, 30);
 		txtName2.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -175,7 +175,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblMaxKw2.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtMaxKw2 = new JTextArea();
+		txtMaxKw2 = new JTextArea("250");
 		txtMaxKw2.setBounds(200, 140 + h1, 150, 30);
 		txtMaxKw2.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -210,7 +210,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblName3.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtName3 = new JTextArea();
+		txtName3 = new JTextArea("Compressore");
 		txtName3.setBounds(20, 140 + h2, 150, 30);
 		txtName3.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -220,7 +220,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblMaxKw3.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtMaxKw3 = new JTextArea();
+		txtMaxKw3 = new JTextArea("350");
 		txtMaxKw3.setBounds(200, 140 + h2, 150, 30);
 		txtMaxKw3.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));

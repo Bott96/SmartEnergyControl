@@ -131,6 +131,20 @@ public class SerialArduinoConnection implements SerialPortEventListener {
 
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}
+	
+	
+	public synchronized void writeData(byte[] value) {
+		try {
+
+			output.write(value);
+			output.flush();
+
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+
+		// Ignore all the other eventTypes, but you should consider the other ones.
+	}
 
 	public static void main(String[] args) throws Exception {
 		/*SerialArduinoConnection main = new SerialArduinoConnection("/dev/ttyACM0");

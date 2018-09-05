@@ -115,10 +115,10 @@ public class ManageDevices {
 
 		ManageDevices md = new ManageDevices();
 		md.AddDevice(11, "asd", 300, 1);
-		md.AddDevice(12, "asd", 300, 1);
+		md.AddDevice(12, "asd", 300, 2);
 		md.AddDevice(13, "asd", 1500, 1);
 
-		System.out.println(md.deviceICanOpenEc(2500));
+		System.out.println(md.deviceICanOpenEc(1900));
 
 	}
 

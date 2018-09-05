@@ -114,9 +114,9 @@ public class ManageDevices {
 	public static void main(String[] args) {
 
 		ManageDevices md = new ManageDevices();
-		md.AddDevice(11, "asd", 500, 3);
-		md.AddDevice(12, "asd", 500, 1);
-		md.AddDevice(13, "asd", 500, 2);
+		md.AddDevice(11, "asd", 300, 1);
+		md.AddDevice(12, "asd", 300, 1);
+		md.AddDevice(13, "asd", 1500, 1);
 
 		System.out.println(md.deviceICanOpenEc(2500));
 
@@ -128,8 +128,8 @@ public class ManageDevices {
 		decision = new ScheletroBactracking(devices, maxKw, sol);
 
 		decision.TemplateMethod_Solve(0);
-	//	System.out.println(decision.SommaMax);
-		//System.out.println(decision.BestSol);
+		// System.out.println(decision.SommaMax);
+		// System.out.println(decision.BestSol);
 
 		return decision.BestSol;
 

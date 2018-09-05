@@ -114,11 +114,11 @@ public class ManageDevices {
 	public static void main(String[] args) {
 
 		ManageDevices md = new ManageDevices();
-		md.AddDevice(11, "asd", 300, 1);
-		md.AddDevice(12, "asd", 300, 2);
-		md.AddDevice(13, "asd", 1500, 1);
+		md.AddDevice(11, "asd", 200, 1);
+		md.AddDevice(12, "asd", 500, 2);
+		md.AddDevice(13, "asd", 1500, 3);
 
-		System.out.println(md.deviceICanOpenEc(1900));
+		System.out.println(md.deviceICanOpenEc(1500));
 
 	}
 
@@ -132,6 +132,13 @@ public class ManageDevices {
 		// System.out.println(decision.BestSol);
 
 		return decision.BestSol;
+
+	}
+
+	public void reset() {
+		devices.set(0, null);
+		devices.set(1, null);
+		devices.set(2, null);
 
 	}
 

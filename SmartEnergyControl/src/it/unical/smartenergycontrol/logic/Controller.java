@@ -73,6 +73,9 @@ public class Controller {
 		dataARDUINOturnOffProgram0();
 		dataARDUINOturnOffProgram1();
 		dataARDUINOturnOffProgram2();
+		SAC.writeData(111);
+		SAC.writeData(112);
+		SAC.writeData(113);
 
 	}
 
@@ -204,132 +207,138 @@ public class Controller {
 
 	}
 
-	public void moreThanOneOpen(int Program) {
+	public void moreThanOneOpen() {
 		SAC.writeData(4);
 
-		if (Program == 1) { // economics
+		new Thread() {
 
-			new Thread() {
+			boolean justOpen = false;
+			int oldMisure = 0;
+			int count = ROUNDTOOPEN;
 
-				boolean justOpen = false;
-				int oldMisure = 0;
-				int count = ROUNDTOOPEN;
+			@Override
+			public void run() {
 
-				@Override
-				public void run() {
+				while (Programs.getInstance().isMoreThanOne()) {
 
-					while (Programs.getInstance().MoreThanOne && Program == 1) {
+					lock.lock();
 
-						lock.lock();
-
-						if (justUpdate == false) {
-							justUpdate = true;
-							oldMisure = STC.getData();
-							ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
-							// System.out.println("VALORE SU CUI OPERAREEE " + devToOpen);
-
-						}
-						// System.out.println("VALORI PER CUI ESCO ");
-						// System.out.println("OLD MISURE PIU " + (oldMisure+61));
-						// System.out.println("OLD MISURE MENO " + (oldMisure-61));
-						// System.out.println("GET DATA " + STC.getData());
-
-						while (!(STC.getData() >= oldMisure + 100 || STC.getData() <= oldMisure - 100)) { // se è true
-
-							System.out.println("Maggiore  o minore more tha one open");
-							// System.out.println("PERCHE NON ESCO DAL QHILE?");
-
-							// System.out.println("OLD MISURE " + oldMisure);
-							// System.out.println("GET DATA " + STC.getData());
-							try {
-								c.await();
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-
-						/*
-						 * while(count !=0){
-						 * 
-						 * count --; try { c.await(); } catch (InterruptedException e) { // TODO
-						 * Auto-generated catch block e.printStackTrace(); }
-						 * 
-						 * 
-						 * 
-						 * }
-						 */
-						ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
-
-						System.out.println("VALORE SU CUI OPERAREEE  " + devToOpen);
-						// DICI AD ARDUINO QUALI APRIRE
-
-						ArrayList<Integer> dataTosend = new ArrayList<>();
-						if (devToOpen.size() == 0) {
-							dataTosend.add(111);
-							dataTosend.add(112);
-							dataTosend.add(113);
-						} else if (devToOpen.size() == 1) {
-							if (devToOpen.get(0).getPort() == 11) {
-
-								dataTosend.add(11);
-								dataTosend.add(112);
-								dataTosend.add(113);
-							} else if (devToOpen.get(0).getPort() == 12) {
-
-								dataTosend.add(12);
-								dataTosend.add(111);
-								dataTosend.add(113);
-							} else if (devToOpen.get(0).getPort() == 13) {
-
-								dataTosend.add(13);
-								dataTosend.add(111);
-								dataTosend.add(112);
-							}
-						} else if (devToOpen.size() == 2) {
-							if (devToOpen.get(0).getPort() == 11 && devToOpen.get(1).getPort() == 12) {
-
-								dataTosend.add(11);
-								dataTosend.add(12);
-								dataTosend.add(113);
-							} else if (devToOpen.get(0).getPort() == 11 && devToOpen.get(1).getPort() == 13) {
-
-								dataTosend.add(11);
-								dataTosend.add(13);
-								dataTosend.add(112);
-							} else if (devToOpen.get(0).getPort() == 12 && devToOpen.get(1).getPort() == 13) {
-
-								dataTosend.add(111);
-
-								dataTosend.add(12);
-								dataTosend.add(13);
-							}
-						} else {
-							dataTosend.add(11);
-							dataTosend.add(12);
-							dataTosend.add(13);
-						}
-
-						for (int i = 0; i < dataTosend.size(); i++) {
-
-							SAC.writeData(dataTosend.get(i));
-
-						}
-
-						// oldMisure = STC.getData();
-						// justUpdate = false;
-						count = ROUNDTOOPEN;
-
+					if (justUpdate == false) {
+						justUpdate = true;
 						oldMisure = STC.getData();
-						lock.unlock();
+						ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
+						// System.out.println("VALORE SU CUI OPERAREEE " + devToOpen);
+
+					}
+					// System.out.println("VALORI PER CUI ESCO ");
+					// System.out.println("OLD MISURE PIU " + (oldMisure+61));
+					// System.out.println("OLD MISURE MENO " + (oldMisure-61));
+					// System.out.println("GET DATA " + STC.getData());
+
+					while (count != 0) {
+
+						count--;
+
+						try {
+							c.await();
+						} catch (InterruptedException e) {
+
+							e.printStackTrace();
+						}
 
 					}
 
+					while (!(STC.getData() >= oldMisure + 100 || STC.getData() <= oldMisure - 100)) { // se è true
+
+						System.out.println("Maggiore  o minore more tha one open");
+						// System.out.println("PERCHE NON ESCO DAL QHILE?");
+
+						// System.out.println("OLD MISURE " + oldMisure);
+						// System.out.println("GET DATA " + STC.getData());
+						try {
+							c.await();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+						if (Config.chiudiMoreThanOne) {
+							Config.chiudiMoreThanOne = false;
+							return;
+						}
+
+					ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
+
+					System.out.println("VALORE SU CUI OPERAREEE  " + devToOpen);
+					// DICI AD ARDUINO QUALI APRIRE
+
+					ArrayList<Integer> dataTosend = new ArrayList<>();
+					if (devToOpen.size() == 0) {
+						dataTosend.add(111);
+						dataTosend.add(112);
+						dataTosend.add(113);
+					} else if (devToOpen.size() == 1) {
+						if (devToOpen.get(0).getPort() == 11) {
+
+							dataTosend.add(11);
+							dataTosend.add(112);
+							dataTosend.add(113);
+						} else if (devToOpen.get(0).getPort() == 12) {
+
+							dataTosend.add(12);
+							dataTosend.add(111);
+							dataTosend.add(113);
+						} else if (devToOpen.get(0).getPort() == 13) {
+
+							dataTosend.add(13);
+							dataTosend.add(111);
+							dataTosend.add(112);
+						}
+					} else if (devToOpen.size() == 2) {
+						if (devToOpen.get(0).getPort() == 11 && devToOpen.get(1).getPort() == 12) {
+
+							dataTosend.add(11);
+							dataTosend.add(12);
+							dataTosend.add(113);
+						} else if (devToOpen.get(0).getPort() == 11 && devToOpen.get(1).getPort() == 13) {
+
+							dataTosend.add(11);
+							dataTosend.add(13);
+							dataTosend.add(112);
+						} else if (devToOpen.get(0).getPort() == 12 && devToOpen.get(1).getPort() == 13) {
+
+							dataTosend.add(111);
+
+							dataTosend.add(12);
+							dataTosend.add(13);
+						}
+					} else {
+						dataTosend.add(11);
+						dataTosend.add(12);
+						dataTosend.add(13);
+					}
+
+					for (int i = 0; i < dataTosend.size(); i++) {
+
+						SAC.writeData(dataTosend.get(i));
+
+					}
+
+					// oldMisure = STC.getData();
+					// justUpdate = false;
+					count = ROUNDTOOPEN;
+
+					oldMisure = STC.getData();
+					lock.unlock();
+
 				}
 
-			}.start();
+				System.out.println("SONO MOORRTOOooo");
 
-		}
+			}
+
+		}.start();
 
 	}
 

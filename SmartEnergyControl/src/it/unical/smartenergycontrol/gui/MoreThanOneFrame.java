@@ -85,7 +85,7 @@ public class MoreThanOneFrame extends JFrame {
 		this.app = app;
 
 		System.out.println("SONO UQI");
-		
+
 		p = new JPanel();
 		this.setContentPane(p);
 		p.setLayout(null);
@@ -296,9 +296,30 @@ public class MoreThanOneFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				Programs.getInstance().setPorgrams(7);
+				app.lblActualProgram.setText("No Program");
+				Config.controller.dataARDUINOReset();
+
 				setVisible(false);
 				app.setVisible(true);
 
+			}
+		});
+
+		plsReset.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Programs.getInstance().setPorgrams(7);
+				Config.controller.dataARDUINOReset();
+
+				Config.controller.lock.lock();
+				Config.chiudiMoreThanOne = true;
+				Config.controller.c.signalAll();
+				Config.controller.lock.unlock();
+
+				// Config.controller.managerDevice.reset();
 			}
 		});
 
@@ -334,16 +355,15 @@ public class MoreThanOneFrame extends JFrame {
 
 			}
 		});
-		
-		
+
 		plsRun.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-					Programs.getInstance().setPorgrams(3);
-					Config.controller.moreThanOneOpen(1);
-				
+				Programs.getInstance().setPorgrams(3);
+				Config.controller.moreThanOneOpen();
+
 			}
 		});
 

@@ -22,15 +22,19 @@ public class Programs {
 	}
 
 	public boolean isSmartControl() {
-		return SmartControl && !(TimeControl || ManualControl);
+		return SmartControl && !(TimeControl || ManualControl || MoreThanOne);
 	}
 
 	public boolean isTimeControl() {
-		return TimeControl && !(SmartControl || ManualControl);
+		return TimeControl && !(SmartControl || ManualControl || MoreThanOne);
 	}
 
 	public boolean isManualControl() {
-		return ManualControl && !(TimeControl || SmartControl);
+		return ManualControl && !(TimeControl || SmartControl || MoreThanOne);
+	}
+
+	public boolean isMoreThanOne() {
+		return MoreThanOne && !(TimeControl || SmartControl || ManualControl);
 	}
 
 	public void setPorgrams(int P) {
@@ -52,11 +56,11 @@ public class Programs {
 			TimeControl = false;
 			ManualControl = true;
 			MoreThanOne = false;
-		}else if (P == 3) {
+		} else if (P == 3) {
 
 			SmartControl = false;
 			TimeControl = false;
-			ManualControl = true;
+			ManualControl = false;
 			MoreThanOne = true;
 		} else {
 			SmartControl = false;

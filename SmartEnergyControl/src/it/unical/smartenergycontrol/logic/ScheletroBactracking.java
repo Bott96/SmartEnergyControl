@@ -20,6 +20,7 @@ public class ScheletroBactracking {
 		MIN = 0;
 		device = dev;
 		MAX = device.size();
+		System.out.println(MAX);
 		KWPRODOTTIATTUALI = kwpro;
 		this.sol = sol;
 
@@ -57,7 +58,8 @@ public class ScheletroBactracking {
 	boolean isComplete(int x) {
 
 		if (x == MAX - 1) {
-			if (PriorityActual >= MaxPriority && (SommaAttuale > SommaMax ) ) {
+			// if (PriorityActual >= MaxPriority && (SommaAttuale > SommaMax ) ) {
+			if ((PriorityActual > MaxPriority) || ((PriorityActual == MaxPriority) && (SommaAttuale > SommaMax))) {
 				SommaMax = SommaAttuale;
 				MaxPriority = PriorityActual;
 				BestSol.clear();
@@ -75,7 +77,7 @@ public class ScheletroBactracking {
 
 	boolean canAdd(Device dv) {
 		// System.out.println("can add----- "+(SommaAttuale +" "+ kw) );
-		if ((SommaAttuale + dv.getMaxKW()) <= KWPRODOTTIATTUALI ) {
+		if ((SommaAttuale + dv.getMaxKW()) <= KWPRODOTTIATTUALI) {
 
 			return true;
 		}
@@ -93,14 +95,15 @@ public class ScheletroBactracking {
 
 	void removeSolution(int x) {
 		SommaAttuale -= sol.get(sol.size() - 1).getMaxKW();
-		PriorityActual =0;
-		for(int i =0; i<sol.size(); i++) {
-			if (PriorityActual< sol.get(i).getPriority()) {
+		PriorityActual = 0;
+		sol.remove(sol.size() - 1);
+		for (int i = 0; i < sol.size(); i++) {
+			if (PriorityActual < sol.get(i).getPriority()) {
 				PriorityActual = sol.get(i).getPriority();
 			}
 		}
-		//PriorityActual = sol.get(sol.size() - 1).getPriority();
-		sol.remove(sol.size() - 1);
+		// PriorityActual = sol.get(sol.size() - 1).getPriority();
+	
 
 	}
 }

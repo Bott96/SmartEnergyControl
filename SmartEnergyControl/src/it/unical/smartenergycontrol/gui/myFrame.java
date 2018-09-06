@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
 import it.unical.smartenergycontrol.logic.Config;
@@ -133,20 +134,25 @@ public class myFrame extends JFrame {
 
 		/****************** LABEL ARDUINO RESPONCE ****************************/
 
-		lblArduinoResponce = new JLabel("");
-		lblArduinoResponce.setBounds(150, 475, 800, 50);
+		lblArduinoResponce = new JLabel("",SwingConstants.CENTER);
+		lblArduinoResponce.setBounds(130, 475, 350, 50);
 		lblArduinoResponce.setFont(
 				new Font(lblTelosBConfiguration.getFont().getName(), lblTelosBConfiguration.getFont().getStyle(), 25));
+		lblArduinoResponce.setBackground(Color.orange);
 
+		lblArduinoResponce.setForeground(new Color(100, 100, 100));
+		lblArduinoResponce.setOpaque(true);
 		/****************** LABEL TELOSB RESPONCE ****************************/
 
-		lblTelosbResponce = new JLabel("");
-		this.setTitle("SmartEnergyControll");
-
-		this.setLocation(1200, 50);
-		lblTelosbResponce.setBounds(150, 200, 800, 50);
+		lblTelosbResponce = new JLabel("",SwingConstants.CENTER);
+		lblTelosbResponce.setBounds(150, 200, 298, 50);
 		lblTelosbResponce.setFont(
 				new Font(lblTelosBConfiguration.getFont().getName(), lblTelosBConfiguration.getFont().getStyle(), 25));
+		lblTelosbResponce.setBackground(Color.orange);
+
+		lblTelosbResponce.setForeground(new Color(100, 100, 100));
+		lblTelosbResponce.setOpaque(true);
+		
 
 		/************** START BUTTON ******************/
 

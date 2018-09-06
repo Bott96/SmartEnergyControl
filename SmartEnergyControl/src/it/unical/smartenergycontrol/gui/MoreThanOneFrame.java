@@ -123,7 +123,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblName1.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtName1 = new JTextArea("Condizionatore");
+		txtName1 = new JTextArea("Device A");
 		txtName1.setBounds(20, 140 + h, 150, 30);
 		txtName1.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -168,7 +168,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblName2.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtName2 = new JTextArea("STUFA");
+		txtName2 = new JTextArea("Device B");
 		txtName2.setBounds(20, 140 + h1, 150, 30);
 		txtName2.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -213,7 +213,7 @@ public class MoreThanOneFrame extends JFrame {
 		lblName3.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 25));
 
-		txtName3 = new JTextArea("Compressore");
+		txtName3 = new JTextArea("Device C");
 		txtName3.setBounds(20, 140 + h2, 150, 30);
 		txtName3.setFont(
 				new Font(lblRegisterYourDevice.getFont().getName(), lblRegisterYourDevice.getFont().getStyle(), 22));
@@ -358,7 +358,10 @@ public class MoreThanOneFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				
+				if(Programs.getInstance().isMoreThanOne()) {
+				
+				}
 				Programs.getInstance().setPorgrams(3);
 				Config.controller.moreThanOneOpen();
 

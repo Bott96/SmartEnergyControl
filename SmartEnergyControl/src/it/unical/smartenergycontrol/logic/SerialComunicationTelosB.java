@@ -58,9 +58,9 @@ public class SerialComunicationTelosB implements MessageListener {
 			/** data = sum1 / j; CURRENT SENSOR **/
 			/** data = (data1/100)*62; CURRENT SENSOR **/
 			/** data = ValToPrint; **/
-			appFrame.lblShowData.setText(data + "");
+			appFrame.lblShowData.setText(data + " Watt");
 
-			frame.getApplicationFrame().getMoreThanOneFrame().lblShowData.setText(data + "");
+			frame.getApplicationFrame().getMoreThanOneFrame().lblShowData.setText(data + " Watt");
 
 			Config.controller.lock.lock();
 			Config.controller.c.signalAll();

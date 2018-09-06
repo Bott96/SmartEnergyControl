@@ -16,9 +16,14 @@ public class SerialComunicationTelosB implements MessageListener {
 	MoteIF mote;
 	myFrame frame;
 	ApplicationFrame appFrame;
-	int c = 0;
+	int c = 1;
+	int k = 1;
+
+	int i = 20;
+	int j = 5;
 	private int data;
-	private int sum;
+	private int sum;;
+	private int sum1;
 
 	public SerialComunicationTelosB(String ConnectionPort, myFrame frame) {
 		this.frame = frame;
@@ -35,22 +40,34 @@ public class SerialComunicationTelosB implements MessageListener {
 	@Override
 	public void messageReceived(int arg0, Message message) {
 
-		int i = 20;
 		sum += ((MyMessage) message).getCounter();
 		c++;
+		/**
+		 * k++; CURRENT SENSOR
+		 * 
+		 * if (k == j) { sum1 += sum; k = 1; sum = 0; }
+		 */
 
 		if (c == i) {
+
+			/** int ValToPrint = ((sum1 / 100) * 30); CURRENT SENSOR **/
+
 			System.out.println("Aggiorno /sveglio");
-			c = 0;
+			c = 1;
 			data = sum / i;
+			/** data = sum1 / j; CURRENT SENSOR **/
+			/** data = (data1/100)*62; CURRENT SENSOR **/
+			/** data = ValToPrint; **/
 			appFrame.lblShowData.setText(data + "");
+
 			frame.getApplicationFrame().getMoreThanOneFrame().lblShowData.setText(data + "");
-			sum = 0;
+
 			Config.controller.lock.lock();
 			Config.controller.c.signalAll();
 
 			Config.controller.lock.unlock();
-
+			sum1 = 0;
+			sum = 0;
 		}
 		System.out.println(
 				"DA CHI  " + ((MyMessage) message).getNodeId() + "   counter" + ((MyMessage) message).getCounter());

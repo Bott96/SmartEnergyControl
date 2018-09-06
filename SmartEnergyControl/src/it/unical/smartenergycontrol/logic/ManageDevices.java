@@ -61,54 +61,10 @@ public class ManageDevices {
 
 	}
 
-	public void sortPriority() {
 
-		devices.sort(PriorityDeviceComparator);
 
-	}
 
-	public int sumTotalKw() {
 
-		int sum = 0;
-		for (int i = 0; i < devices.size(); i++) {
-			sum += devices.get(i).getMaxKW();
-		}
-
-		return sum;
-
-	}
-
-	public void sortKW() {
-
-		devices.sort(KWDeviceComparator);
-
-	}
-
-	public Comparator<Device> PriorityDeviceComparator = new Comparator<Device>() {
-
-		public int compare(Device dev1, Device dev2) {
-
-			Integer pri1 = dev1.getPriority();
-			Integer pri2 = dev2.getPriority();
-
-			return pri1.compareTo(pri2);
-
-		}
-
-	};
-
-	public Comparator<Device> KWDeviceComparator = new Comparator<Device>() {
-
-		public int compare(Device dev1, Device dev2) {
-
-			Integer kw1 = dev1.getMaxKW();
-			Integer kw2 = dev2.getMaxKW();
-
-			return kw1.compareTo(kw2);
-
-		}
-
-	};
 
 	private int getDev(int i) {
 		return devices.get(i).getPriority();

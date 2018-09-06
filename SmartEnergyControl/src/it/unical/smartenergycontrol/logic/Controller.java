@@ -126,7 +126,7 @@ public class Controller {
 			firstTime = false;
 			timer.schedule(new MyTimeTaskDOWN(this), dateDown);
 
-			// frame.getApplicationFrame().plsONOFF.setText("Manual On");
+		
 			isAccumulatorOpen = false;
 			firstTime = true;
 
@@ -156,7 +156,6 @@ public class Controller {
 				while (Programs.getInstance().SmartControl) {
 
 					lock.lock();
-					// System.out.println(Programs.getInstance().SmartControl);
 					try {
 
 						while (STC.getData() < userThreeshold && count != 0) {
@@ -196,7 +195,6 @@ public class Controller {
 						}
 
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -228,18 +226,13 @@ public class Controller {
 					if (justUpdate == false) {
 						justUpdate = true;
 						oldMisure = STC.getData();
-						// System.out.println("VALORE SU CUI OPERAREEE " + devToOpen);
 
 					}
-					// System.out.println("VALORI PER CUI ESCO ");
-					// System.out.println("OLD MISURE PIU " + (oldMisure+61));
-					// System.out.println("OLD MISURE MENO " + (oldMisure-61));
-					// System.out.println("GET DATA " + STC.getData());
+
 
 					ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
 
-					System.out.println("VALORE SU CUI OPERAREEE  " + devToOpen);
-					// DICI AD ARDUINO QUALI APRIRE
+					//System.out.println("VALORE SU CUI OPERAREEE  " + devToOpen);
 
 					ArrayList<Integer> dataTosend = new ArrayList<>();
 					if (devToOpen.size() == 0) {
@@ -308,7 +301,7 @@ public class Controller {
 
 					while (!(STC.getData() >= oldMisure + 100 || STC.getData() <= oldMisure - 100)) { // se è true
 
-						System.out.println("Maggiore  o minore more tha one open");
+						//System.out.println("Maggiore  o minore more tha one open");
 						// System.out.println("PERCHE NON ESCO DAL QHILE?");
 
 						// System.out.println("OLD MISURE " + oldMisure);
@@ -330,7 +323,7 @@ public class Controller {
 
 				}
 
-				System.out.println("SONO MOORRTOOooo");
+				//System.out.println("SONO MOORRTOOooo");
 
 			}
 

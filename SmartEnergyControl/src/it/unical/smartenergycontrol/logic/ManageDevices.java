@@ -19,6 +19,9 @@ public class ManageDevices {
 		devices.add(null);
 		devices.add(null);
 		devices.add(null);
+		devices.set(0, new Device(50, " ", 5000000, 0, false));
+		devices.set(1, new Device(51, " ", 5000000, 0, false));
+		devices.set(2, new Device(52, " ", 5000000, 0, false));
 
 	}
 
@@ -128,17 +131,15 @@ public class ManageDevices {
 		decision = new ScheletroBactracking(devices, maxKw, sol);
 
 		decision.TemplateMethod_Solve(0);
-		// System.out.println(decision.SommaMax);
-		// System.out.println(decision.BestSol);
 
 		return decision.BestSol;
 
 	}
 
 	public void reset() {
-		devices.set(0, null);
-		devices.set(1, null);
-		devices.set(2, null);
+		devices.set(0, new Device(50, " ", 5000000, 0, false));
+		devices.set(1, new Device(51, " ", 5000000, 0, false));
+		devices.set(2, new Device(52, " ", 5000000, 0, false));
 
 	}
 

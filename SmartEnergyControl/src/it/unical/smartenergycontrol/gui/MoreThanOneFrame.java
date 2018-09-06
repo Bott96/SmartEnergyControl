@@ -1,6 +1,7 @@
 package it.unical.smartenergycontrol.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,14 +88,16 @@ public class MoreThanOneFrame extends JFrame {
 		System.out.println("SONO UQI");
 
 		p = new JPanel();
-		this.setContentPane(p);
+		setContentPane(p);
 		p.setLayout(null);
 
-		this.setTitle("More Element");
+		setTitle("More Element");
 
-		this.setLocation(1200, 50);
-		this.setSize(600, 800);
-		this.setFocusable(true);
+		setLocation(1200, 50);
+		getContentPane().setPreferredSize(new Dimension(600, 800));
+		pack();
+		setSize(600, 800);
+		setFocusable(true);
 
 		/** LBL SMART ENERGY CONTROL */
 		lblShowData = new JLabel("", SwingConstants.CENTER);
@@ -313,11 +316,6 @@ public class MoreThanOneFrame extends JFrame {
 
 				Programs.getInstance().setPorgrams(7);
 				Config.controller.dataARDUINOReset();
-
-				Config.controller.lock.lock();
-				Config.chiudiMoreThanOne = true;
-				Config.controller.c.signalAll();
-				Config.controller.lock.unlock();
 
 				// Config.controller.managerDevice.reset();
 			}

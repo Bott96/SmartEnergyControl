@@ -66,7 +66,7 @@ public class Controller {
 	}
 
 	public void dataARDUINOReset() {
-		SAC.writeData(999);
+
 		firstTime = true;
 		frame.getApplicationFrame().plsONOFF.setText("Manual On");
 
@@ -76,6 +76,8 @@ public class Controller {
 		SAC.writeData(111);
 		SAC.writeData(112);
 		SAC.writeData(113);
+
+		SAC.writeData(9);
 
 	}
 
@@ -226,7 +228,6 @@ public class Controller {
 					if (justUpdate == false) {
 						justUpdate = true;
 						oldMisure = STC.getData();
-						ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
 						// System.out.println("VALORE SU CUI OPERAREEE " + devToOpen);
 
 					}
@@ -234,39 +235,6 @@ public class Controller {
 					// System.out.println("OLD MISURE PIU " + (oldMisure+61));
 					// System.out.println("OLD MISURE MENO " + (oldMisure-61));
 					// System.out.println("GET DATA " + STC.getData());
-
-					while (count != 0) {
-
-						count--;
-
-						try {
-							c.await();
-						} catch (InterruptedException e) {
-
-							e.printStackTrace();
-						}
-
-					}
-
-					while (!(STC.getData() >= oldMisure + 100 || STC.getData() <= oldMisure - 100)) { // se è true
-
-						System.out.println("Maggiore  o minore more tha one open");
-						// System.out.println("PERCHE NON ESCO DAL QHILE?");
-
-						// System.out.println("OLD MISURE " + oldMisure);
-						// System.out.println("GET DATA " + STC.getData());
-						try {
-							c.await();
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-
-						if (Config.chiudiMoreThanOne) {
-							Config.chiudiMoreThanOne = false;
-							return;
-						}
 
 					ArrayList<Device> devToOpen = managerDevice.deviceICanOpenEc(STC.getData());
 
@@ -323,6 +291,34 @@ public class Controller {
 
 						SAC.writeData(dataTosend.get(i));
 
+					}
+
+					while (count != 0) {
+
+						count--;
+
+						try {
+							c.await();
+						} catch (InterruptedException e) {
+
+							e.printStackTrace();
+						}
+
+					}
+
+					while (!(STC.getData() >= oldMisure + 100 || STC.getData() <= oldMisure - 100)) { // se è true
+
+						System.out.println("Maggiore  o minore more tha one open");
+						// System.out.println("PERCHE NON ESCO DAL QHILE?");
+
+						// System.out.println("OLD MISURE " + oldMisure);
+						// System.out.println("GET DATA " + STC.getData());
+						try {
+							c.await();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 
 					// oldMisure = STC.getData();

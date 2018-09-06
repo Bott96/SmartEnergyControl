@@ -3,7 +3,6 @@ package it.unical.smartenergycontrol.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -19,11 +18,14 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import it.unical.smartenergycontrol.logic.Config;
-import it.unical.smartenergycontrol.logic.Controller;
 import it.unical.smartenergycontrol.logic.Programs;
 
 public class ApplicationFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	MoreThanOneFrame moreThanOneFrame;
 
@@ -49,7 +51,6 @@ public class ApplicationFrame extends JFrame {
 	public JButton plsMoreThanOne;
 	JButton plsResetProgram;
 
-
 	public ApplicationFrame() {
 		super();
 
@@ -57,22 +58,20 @@ public class ApplicationFrame extends JFrame {
 		moreThanOneFrame.setVisible(false);
 
 		p = new JPanel();
-		this.setContentPane(p);
 		p.setLayout(null);
+		setContentPane(p);
 
-		this.setTitle("SmartEnergyControl");
+		setTitle("SmartEnergyControl");
 
-		this.setLocation(1200, 50);
-		this.setFocusable(true);
-		this.setSize(600, 800);
+		setLocation(1200, 50);
+		setFocusable(true);
+		getContentPane().setPreferredSize(new Dimension(600, 800));
+		pack();
+		setSize(600, 800);
 
 		lblThreeshold = new JLabel("Threeshold");
 		lblThreeshold.setBounds(320, 190, 250, 70);
 		lblThreeshold.setFont(new Font(lblThreeshold.getFont().getName(), lblThreeshold.getFont().getStyle(), 25));
-
-		Toolkit TK = Toolkit.getDefaultToolkit();
-
-		Dimension d = TK.getScreenSize();
 
 		Color c = new Color(10, 100, 100);
 
@@ -349,12 +348,11 @@ public class ApplicationFrame extends JFrame {
 				lblActualProgram.setText("Manual");
 
 				Config.controller.manualControl();
-
 			}
 		});
 
 	}
-	
+
 	public MoreThanOneFrame getMoreThanOneFrame() {
 		return moreThanOneFrame;
 	}

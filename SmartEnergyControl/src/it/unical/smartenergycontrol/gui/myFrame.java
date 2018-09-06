@@ -45,15 +45,10 @@ public class myFrame extends JFrame {
 
 	public myFrame() {
 		super();
-		// applicationFrame = a;
-
 		Config.controller = new Controller(this);
 
 		applicationFrame = new ApplicationFrame();
 
-		// applicationFrame.setController(controller);
-
-		// setLayout(manager);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -67,9 +62,6 @@ public class myFrame extends JFrame {
 
 		this.setLocation(1200, 50);
 
-		Toolkit TK = Toolkit.getDefaultToolkit();
-
-		Dimension d = TK.getScreenSize();
 		this.setSize(600, 800);
 
 		Color c = new Color(10, 100, 100);
@@ -174,6 +166,8 @@ public class myFrame extends JFrame {
 				Config.controller.startArduinoConnection(connectionPort);
 				ArduinoComunicationSetted = true;
 
+				System.out.println("H " + getHeight() + "  W  " + getWidth());
+
 			}
 		});
 
@@ -206,6 +200,7 @@ public class myFrame extends JFrame {
 				} else {
 					setVisible(false);
 					applicationFrame.setVisible(true);
+
 				}
 
 			}
